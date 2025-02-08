@@ -10,7 +10,20 @@ A lightweight, minimalistic shell built in **C++** that mimics basic Unix shell 
 ✔️ Handles **single (' ') and double (" ") quotes** correctly  
 ✔️ Supports **whitespace-separated arguments**  
 
----
+📌 Example Usage
+
+``` shell
+tanjiro % echo "Hello, World!"
+Hello, World!
+
+tanjiro % ls
+shell.cpp  mysh
+
+tanjiro % type echo
+echo is a shell builtin
+
+tanjiro % exit
+```
 
 ## 📌 How It Works
 
