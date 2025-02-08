@@ -1,17 +1,19 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <vector>
 #include <filesystem>
-#include <unordered_set>
 #include <bits/stdc++.h>
-/*#include <stdio.h>*/
-/*#include <stdlib.h>*/
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 using namespace std;
 
 string get_path(string command, const string& path_env);
 
 vector<string> tokenize(const string& input);
+
+void exec_command (vector<string> tokens);
 
 int main() {
   cout << unitbuf;
@@ -40,17 +42,34 @@ int main() {
 
     // implementing echo
     else if (command == "echo") {
-      /*cout << input << endl;*/
-      /*cout << input.substr(0,1) << endl;*/
-      if (input.length() < 5) cout << endl;
-      string input_echo_string = input.substr(5); 
-      if (input.substr(5,1) == "'") {
-        string newStr = input.substr(6);
-        int endQuote = newStr.find("'");
-        cout << endQuote << endl;
-        cout << newStr.substr(0, (endQuote)) << endl;
+      if (tokens.size() < 2) cout << endl;
+
+      string echo_output;
+      bool in_quotes = false;
+      char quote_char = '\0';
+
+      for (size_t i = 1; i < tokens.size(); i++) {
+        string word = tokens[i];
+        char front = word.front();
+        char back = word.back();
+        char singleQuote = '\'';
+        char doubleQuote = '\"';
+
+        if (!in_quotes && (front == singleQuote || front == doubleQuote)) {
+          in_quotes = true;
+          quote_char = word.front();
+          word = word.substr(1);
+        }
+
+        if (in_quotes && (back == quote_char)) {
+          in_quotes = false;
+          word.pop_back();
+        }
+
+        /*if (!echo_output.empty()) echo_output += " ";*/
+        echo_output += word;
       }
-      else cout << input_echo_string << endl;
+      cout << echo_output << endl;
     }
 
     // implementing type
@@ -85,7 +104,7 @@ int main() {
           command += " " + tokens[i];
         }
         const char* cmd = command.c_str();
-        system(cmd);
+        exec_command(tokens);
       }
     }
   }
@@ -119,3 +138,27 @@ vector<string> tokenize(const string& input) {
     return tokens;
 }
 
+
+void exec_command (vector<string> tokens) {
+  if (tokens.empty()) return;
+
+  vector<char*> args;
+  for ( string &token : tokens) {
+    args.push_back(&token[0]);
+  }
+  args.push_back(nullptr);
+
+  pid_t pid = fork();
+  if ( pid == 0 ) {
+    execvp(args[0], args.data());
+    perror("execvp");
+    exit(EXIT_FAILURE);
+  }
+  else if (pid > 0) {
+    int status;
+    waitpid(pid, &status, 0);
+  }
+  else {
+    perror("fork");
+  }
+}
