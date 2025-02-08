@@ -10,7 +10,7 @@ A lightweight, minimalistic shell built in **C++** that mimics basic Unix shell 
 ✔️ Handles **single (' ') and double (" ") quotes** correctly  
 ✔️ Supports **whitespace-separated arguments**  
 
-📌 Example Usage
+## 📌 Example Usage
 
 ``` shell
 tanjiro % echo "Hello, World!"
