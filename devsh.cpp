@@ -15,6 +15,8 @@ vector<string> tokenize(const string& input);
 
 void exec_command (vector<string> tokens);
 
+void echo_cmd (vector<string> tokens);
+
 int main() {
   cout << unitbuf;
   cerr << unitbuf;
@@ -42,34 +44,10 @@ int main() {
 
     // implementing echo
     else if (command == "echo") {
-      if (tokens.size() < 2) cout << endl;
-
-      string echo_output;
-      bool in_quotes = false;
-      char quote_char = '\0';
-
-      for (size_t i = 1; i < tokens.size(); i++) {
-        string word = tokens[i];
-        char front = word.front();
-        char back = word.back();
-        char singleQuote = '\'';
-        char doubleQuote = '\"';
-
-        if (!in_quotes && (front == singleQuote || front == doubleQuote)) {
-          in_quotes = true;
-          quote_char = word.front();
-          word = word.substr(1);
-        }
-
-        if (in_quotes && (back == quote_char)) {
-          in_quotes = false;
-          word.pop_back();
-        }
-
-        /*if (!echo_output.empty()) echo_output += " ";*/
-        echo_output += word;
+      if (tokens.size() < 2){
+        cout << endl;
       }
-      cout << echo_output << endl;
+      else echo_cmd(tokens); 
     }
 
     // implementing type
@@ -161,4 +139,35 @@ void exec_command (vector<string> tokens) {
   else {
     perror("fork");
   }
+}
+
+void echo_cmd (vector<string> tokens) {
+
+      string echo_output;
+      bool in_quotes = false;
+      char quote_char = '\0';
+
+      for (size_t i = 1; i < tokens.size(); i++) {
+        string word = tokens[i];
+        char front = word.front();
+        char back = word.back();
+        char singleQuote = '\'';
+        char doubleQuote = '\"';
+
+        if (!in_quotes && (front == singleQuote || front == doubleQuote)) {
+          in_quotes = true;
+          quote_char = word.front();
+          word = word.substr(1);
+        }
+
+        if (in_quotes && (back == quote_char)) {
+          in_quotes = false;
+          word.pop_back();
+        }
+
+        if (!echo_output.empty()) echo_output += " ";
+        echo_output += word;
+      }
+      cout << echo_output << endl;
+
 }
