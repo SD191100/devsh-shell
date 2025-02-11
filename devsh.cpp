@@ -1,173 +1,177 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <filesystem>
 #include <bits/stdc++.h>
+#include <filesystem>
+#include <iostream>
+#include <sstream>
+#include <string>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 using namespace std;
 
-string get_path(string command, const string& path_env);
 
-vector<string> tokenize(const string& input);
+unordered_set<string> DEFAULT_COMMANDS = {"echo", "exit", "type"};
+string USER = getenv("USER");
+string PATH_ENV = getenv("PATH");
 
-void exec_command (vector<string> tokens);
+string get_path(string command, const string &path_env);
 
-void echo_cmd (vector<string> tokens);
+void type_cmd(vector<string>);
+
+vector<string> tokenize(const string &input);
+
+void exec_command(vector<string> tokens);
+
+void echo_cmd(vector<string> tokens);
 
 int main() {
   cout << unitbuf;
   cerr << unitbuf;
-  unordered_set<string> DEFAULT_COMMANDS = { "echo", "exit", "type" };
-  
-  string user = getenv("USER");
-  string path_env = getenv("PATH");
-  while(true) {
+
+    while (true) {
     // basic shell sign
     char default_shell = '%';
-    string shell_prompt = user + " " + default_shell + " ";
+    string shell_prompt = USER + " " + default_shell + " ";
     cout << shell_prompt;
-    
+
     // getting input
     string input;
     getline(cin, input);
-    if (input.empty()) continue;
+    if (input.empty())
+      continue;
 
-    vector<string> tokens = tokenize(input);   // Use a vector to store the tokens
+    vector<string> tokens = tokenize(input); // Use a vector to store the tokens
 
     string command = tokens[0];
 
     // implementing exit
-    if (command == "exit") break;
+    if (command == "exit")
+      break;
 
     // implementing echo
     else if (command == "echo") {
-      if (tokens.size() < 2){
+      if (tokens.size() < 2) {
         cout << endl;
-      }
-      else echo_cmd(tokens); 
+      } else
+        echo_cmd(tokens);
     }
 
     // implementing type
     else if (command == "type") {
-      if (tokens.size() < 2) { }
-      else {
-        bool found = false;
-        string input = tokens[1];
-        if (DEFAULT_COMMANDS.find(input) != DEFAULT_COMMANDS.end()) {
-          found = true;
-          cout << input << " is a shell builtin\n";
-        }
-        else {
-          string path = get_path(input, path_env);
-          if (path.empty()) cout << input << ": not found\n";
-          else cout << input << " is " << path << endl;
-        }
+      if (tokens.size() < 2) {
+      } else {
+        type_cmd(tokens);
       }
     }
-    
+
     // command not found
-    /*else cout << command << ": command not found \n";*/
     else {
       string input = tokens[0];
-      string path = get_path(input, path_env);
-      if (path.empty()) { 
+      string path = get_path(input, PATH_ENV);
+      if (path.empty()) {
         cout << command << ": command not found \n";
-      }
-      else {
-        string command = input;
-        for (int i = 1; i < tokens.size(); i++) {
-          command += " " + tokens[i];
-        }
-        const char* cmd = command.c_str();
+      } else {
         exec_command(tokens);
       }
     }
   }
 
-
   return 0;
 }
 
-string get_path(string command, const string& path_env) {
+string get_path(string command, const string &path_env) {
   stringstream ss(path_env);
 
   string path;
 
-  while(!ss.eof()) {
+  while (!ss.eof()) {
     getline(ss, path, ':');
 
     string abs_path = path + "/" + command;
-    if (filesystem::exists(abs_path)) return abs_path;
+    if (filesystem::exists(abs_path))
+      return abs_path;
   }
   return "";
 }
 
-vector<string> tokenize(const string& input) {
-    vector<string> tokens;
-    size_t pos = 0, found;
-    while ((found = input.find_first_of(" \t", pos)) != string::npos) {
-        if (found > pos) tokens.push_back(input.substr(pos, found - pos));
-        pos = found + 1;
-    }
-    if (pos < input.length()) tokens.push_back(input.substr(pos));
-    return tokens;
+vector<string> tokenize(const string &input) {
+  vector<string> tokens;
+  size_t pos = 0, found;
+  while ((found = input.find_first_of(" \t", pos)) != string::npos) {
+    if (found > pos)
+      tokens.push_back(input.substr(pos, found - pos));
+    pos = found + 1;
+  }
+  if (pos < input.length())
+    tokens.push_back(input.substr(pos));
+  return tokens;
 }
 
+void exec_command(vector<string> tokens) {
+  if (tokens.empty())
+    return;
 
-void exec_command (vector<string> tokens) {
-  if (tokens.empty()) return;
-
-  vector<char*> args;
-  for ( string &token : tokens) {
+  vector<char *> args;
+  for (string &token : tokens) {
     args.push_back(&token[0]);
   }
   args.push_back(nullptr);
 
   pid_t pid = fork();
-  if ( pid == 0 ) {
+  if (pid == 0) {
     execvp(args[0], args.data());
     perror("execvp");
     exit(EXIT_FAILURE);
-  }
-  else if (pid > 0) {
+  } else if (pid > 0) {
     int status;
     waitpid(pid, &status, 0);
-  }
-  else {
+  } else {
     perror("fork");
   }
 }
 
-void echo_cmd (vector<string> tokens) {
+void echo_cmd(vector<string> tokens) {
 
-      string echo_output;
-      bool in_quotes = false;
-      char quote_char = '\0';
+  string echo_output;
+  bool in_quotes = false;
+  char quote_char = '\0';
 
-      for (size_t i = 1; i < tokens.size(); i++) {
-        string word = tokens[i];
-        char front = word.front();
-        char back = word.back();
-        char singleQuote = '\'';
-        char doubleQuote = '\"';
+  for (size_t i = 1; i < tokens.size(); i++) {
+    string word = tokens[i];
+    char front = word.front();
+    char back = word.back();
+    char singleQuote = '\'';
+    char doubleQuote = '\"';
 
-        if (!in_quotes && (front == singleQuote || front == doubleQuote)) {
-          in_quotes = true;
-          quote_char = word.front();
-          word = word.substr(1);
-        }
+    if (!in_quotes && (front == singleQuote || front == doubleQuote)) {
+      in_quotes = true;
+      quote_char = word.front();
+      word = word.substr(1);
+    }
 
-        if (in_quotes && (back == quote_char)) {
-          in_quotes = false;
-          word.pop_back();
-        }
+    if (in_quotes && (back == quote_char)) {
+      in_quotes = false;
+      word.pop_back();
+    }
 
-        if (!echo_output.empty()) echo_output += " ";
-        echo_output += word;
-      }
-      cout << echo_output << endl;
+    if (!echo_output.empty())
+      echo_output += " ";
+    echo_output += word;
+  }
+  cout << echo_output << endl;
+}
 
+void type_cmd(vector<string> tokens) {
+  bool found = false;
+  string input = tokens[1];
+  if (DEFAULT_COMMANDS.find(input) != DEFAULT_COMMANDS.end()) {
+    found = true;
+    cout << input << " is a shell builtin\n";
+  } else {
+    string path = get_path(input, PATH_ENV);
+    if (path.empty())
+      cout << input << ": not found\n";
+    else
+      cout << input << " is " << path << endl;
+  }
 }
