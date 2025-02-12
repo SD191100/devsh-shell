@@ -20,9 +20,9 @@ void type_cmd(vector<string>);
 
 vector<string> tokenize(const string &input);
 
-void exec_command(vector<string> tokens);
+void exec_command(vector<string>);
 
-void echo_cmd(vector<string> tokens);
+void echo_cmd(vector<string>);
 
 int main() {
   cout << unitbuf;
