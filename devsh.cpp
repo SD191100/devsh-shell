@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <sstream>
@@ -31,6 +32,7 @@ int main() {
     while (true) {
     // basic shell sign
     char default_shell = '%';
+    system("hostname");
     string shell_prompt = USER + " " + default_shell + " ";
     cout << shell_prompt;
 
