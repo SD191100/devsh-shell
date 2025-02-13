@@ -32,7 +32,7 @@ int main() {
     while (true) {
     // basic shell sign
     char default_shell = '%';
-    system("hostname");
+    /*system("hostname");*/
     string shell_prompt = USER + " " + default_shell + " ";
     cout << shell_prompt;
 
