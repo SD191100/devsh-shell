@@ -13,16 +13,16 @@ A lightweight, minimalistic shell built in **C++** that mimics basic Unix shell 
 ## 📌 Example Usage
 
 ``` shell
-tanjiro % echo "Hello, World!"
+ubuntu % echo "Hello, World!"
 Hello, World!
 
-tanjiro % ls
+ubuntu % ls
 shell.cpp  mysh
 
-tanjiro % type echo
+ubuntu % type echo
 echo is a shell builtin
 
-tanjiro % exit
+ubuntu % exit
 ```
 
 ## 📌 How It Works
@@ -68,7 +68,7 @@ g++ shell.cpp -o mysh -std=c++17 -lstdc++fs
 
 Now, you're inside your **custom shell!** 🎉  
 ```sh
-tanjiro % echo "Hello, World!"
+ubuntu % echo "Hello, World!"
 Hello, World!
 ```
 
