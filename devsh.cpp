@@ -103,6 +103,7 @@ vector<string> tokenize(const string &input) {
     if (found > pos)
       tokens.push_back(input.substr(pos, found - pos));
     pos = found + 1;
+
   }
   if (pos < input.length())
     tokens.push_back(input.substr(pos));
