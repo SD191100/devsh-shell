@@ -8,7 +8,7 @@ A lightweight, minimalistic shell built in **C++** that mimics basic Unix shell 
 ✔️ Execute system commands like `ls`, `pwd`, `cat`  
 ✔️ Custom **path resolution** using `$PATH`  
 ✔️ Handles **single (' ') and double (" ") quotes** correctly  
-✔️ Supports **whitespace-separated arguments**  
+✔️ Supports **whitespace-separated arguments as well**  
 
 ## 📌 Example Usage
 
