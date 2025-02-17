@@ -15,11 +15,11 @@ unordered_set<string> DEFAULT_COMMANDS = {"echo", "exit", "type"};
 string USER = getenv("USER");
 string PATH_ENV = getenv("PATH");
 
-string get_path(string command, const string &path_env);
+string get_path(string command, const string &);
 
 void type_cmd(vector<string>);
 
-vector<string> tokenize(const string &input);
+vector<string> tokenize(const string &);
 
 void exec_command(vector<string>);
 
