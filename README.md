@@ -31,7 +31,7 @@ ubuntu % exit
 | Command           | Description                                      |
 |------------------|--------------------------------------------------|
 | `echo "Hello"`   | Prints `Hello` to the console                    |
-| `exit`          | Exits the shell                                   |
+| `exit && exit0`  | Exits the shell                                   |
 | `type command`  | Checks if a command is built-in or external       |
 
 ### 💻 Running System Commands
