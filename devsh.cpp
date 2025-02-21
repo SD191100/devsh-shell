@@ -29,7 +29,7 @@ int main() {
   cout << unitbuf;
   cerr << unitbuf;
 
-    while (true) {
+    while (1) {
     // basic shell sign
     char default_shell = '%';
     /*system("hostname");*/
