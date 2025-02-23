@@ -58,12 +58,12 @@ cd custom-shell
 
 2️⃣ **Compile the shell**  
 ```sh
-g++ shell.cpp -o mysh -std=c++17 -lstdc++fs
+g++ shell.cpp -o devsh -std=c++17 -lstdc++fs
 ```
 
 3️⃣ **Run the shell**  
 ```sh
-./mysh
+./devsh
 ```
 
 Now, you're inside your **custom shell!** 🎉  
