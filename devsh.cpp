@@ -33,8 +33,8 @@ int main() {
     // basic shell sign
     char default_shell = '%';
     /*system("hostname");*/
-    string shell_prompt = USER + " " + default_shell + " ";
-    cout << shell_prompt;
+    string shell_prompt = USER + " " + default_shell;
+    cout << shell_prompt << " ";
 
     // getting input
     string input;
