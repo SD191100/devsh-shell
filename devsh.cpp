@@ -11,7 +11,7 @@
 using namespace std;
 
 
-unordered_set<string> DEFAULT_COMMANDS = {"echo", "exit", "type"};
+unordered_set<string> DEFAULT_COMMANDS = {"echo", "exit", "type", "cat"};
 string USER = getenv("USER");
 string PATH_ENV = getenv("PATH");
 
