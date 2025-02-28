@@ -52,8 +52,7 @@ Ensure you have:
 
 1️⃣ **Clone the repository**  
 ```sh
-git clone https://github.com/your-username/custom-shell.git
-cd custom-shell
+git clone https://github.com/sd191100/devsh-shell.git
 ```
 
 2️⃣ **Compile the shell**  
