@@ -59,7 +59,7 @@ git clone https://github.com/sd191100/devsh-shell.git
 ```sh
 g++ devsh.cpp -o devsh -std=c++17 -lstdc++fs
 ```
-<!--`-std=c++17` and `-lstdc++fs` are optional parameters-->
+`-std=c++17` and `-lstdc++fs` are optional parameters
 
 3️⃣ **Run the shell**  
 ```sh
