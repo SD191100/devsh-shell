@@ -32,7 +32,7 @@ ubuntu % exit
 |------------------|--------------------------------------------------|
 | `echo "Hello"`   | Prints `Hello` to the console                    |
 | `exit && exit0`  | Exits the shell                                   |
-| `type command`  | Checks if a command is built-in or present in path       |
+| `type command`  | Checks if a command is built-in or present in binary path       |
 
 ### 💻 Running System Commands
 You can execute **any system command** available in `$PATH`:
