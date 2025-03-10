@@ -1,6 +1,6 @@
 # 🚀 Custom Shell in C++
 
-A lightweight, minimalistic shell built in **C++** that mimics basic Unix shell behavior. This shell supports **built-in commands**, **path resolution**, and **external command execution**.
+A lightweight, minimalist shell built in **C++** that mimics basic Unix shell behavior. This shell supports **built-in commands**, **path resolution**, and **external command execution**.
 
 ## 🔹 Features
 ✔️ Basic shell prompt with user info  
